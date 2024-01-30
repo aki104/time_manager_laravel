@@ -28,6 +28,6 @@ Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
 
 //勤怠系ルート
 Route::group(['prefix' => 'attendance', 'as' => 'attendance.'], function () {
-    Route::post("check", [AttendanceController::class, 'checkAttendanceStatus']);// /api/attendance/check
-    Route::post('save', [AttendanceController::class, 'updateAttendanceStatus']);
+    Route::post("detail", [AttendanceController::class, 'detail']);// /api/attendance/detail
+    Route::post('save', [AttendanceController::class, 'save']);
 });

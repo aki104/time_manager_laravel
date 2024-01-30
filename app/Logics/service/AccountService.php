@@ -2,39 +2,29 @@
 
 namespace App\Logics\service;
 
+use App\Logics\common\ReturnFormat;
 use App\models\Staff\Staff;
 
-class AccountService {
+class AccountService
+{
 
-    public function loginCHeck(array $request): array {
+    public function loginCHeck(array $request): array
+    {
 
         $staff = new Staff();
-        $data = $staff->getdata($request);
+        $data = $staff->getLoginData($request);
         $returnData = [];
 
         if ($data === null) {
-             $returnData = array(
-                'status' => 'faild',
-                'code' => 400,
-                'data' => null,
-                'message' => 'ログイン失敗',
-        );
-            
+            $returnData = ReturnFormat::failure(400, 'ログイン失敗');
         } else {
             $id = $data->id;
-            $returnData = array(
-                'status' => 'success',
-                'code' => 200,
-                'data' => array(
-                    'user_id'=>"$id",
-                    "auth_token" => "abcdefg"
-                ),
-                'message' => '',
-        );
+            $returnData = ReturnFormat::success(array(
+                'user_id' => "$id",
+                "auth_token" => "abcdefg"
+            ), 200, '');
         }
 
         return $returnData;
     }
-
-   
 }

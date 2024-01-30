@@ -55,4 +55,20 @@ class Staff extends Model
                 "attendance_status" => (int) $updateStatus
             ]);
     }
+
+    //勤怠状況取得
+    public function fetchAttendanseStatus(array $request)
+    {
+        $staffId = $request['user_id'];
+        $status = null;
+
+        $staffData = DB::table($this->table)
+            ->find((int) $staffId);
+
+        if ($staffData != null) {
+            $status =  $staffData->attendance_status;
+        }
+
+        return $status;
+    }
 }

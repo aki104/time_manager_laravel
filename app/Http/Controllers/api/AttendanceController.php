@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Logics\common\ReturnFormat;
+use App\Models\History;
 use App\models\Staff\Staff;
+use App\Logics\service\AttendanceService;
+use App\Logics\service\HistoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -11,32 +15,38 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class AttendanceController extends Controller
 {
     //勤怠状態のチェック
-    public function checkAttendanceStatus(Request $request): JsonResponse
+    public function detail(Request $request): JsonResponse
     {
-       
-        return response()->json(array(
-            'status' => 'faild',
-            'code' => 400,
-            'data' => null,
-            'message' => 'ログイン失敗',
-    ));
+        $attendanseService = new AttendanceService();
+        $requestArray = $request->only([
+            'user_id'
+        ]);
+        $response = $attendanseService->fetchExecute($requestArray);
+        
+        return response()->json($response);
     }
 
-     //勤怠状態更新
-     public function updateAttendanceStatus(Request $request): JsonResponse
-     {
+    //勤怠状態更新
+    public function save(Request $request): JsonResponse
+    {
 
-        $staff = new Staff();
-        $staff -> updateAttendanceStatus($request->only([
+        $attendanseService = new AttendanceService();
+        $historyService = new HistoryService();
+        $requestArray = $request->only([
             'user_id', 'attendance_state', 'push_time'
-        ]));
+        ]);
 
-        //勤怠時間を登録する処理が必要
+        //勤怠時間登録
+       $responseRegist = $historyService->registerExecute($requestArray);
+       $codeNumber = (int) $responseRegist['code'];
 
-         return response()->json(array(
-            'status' => 'succese',
-            'code' => 200,
-            'message' => '',
-    ));
-     }
+       if ($codeNumber != 200) {
+        return response()->json($responseRegist);
+       }
+
+        //勤怠状態保存
+        $attendanseService->saveExecute($requestArray);
+
+        return response()->json($responseRegist);
+    }
 }
