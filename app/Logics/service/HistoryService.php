@@ -32,6 +32,7 @@ class HistoryService  {
 
 }
 
+//勤怠登録タイプ
 enum StampingType {
     case Register;
     case Update;

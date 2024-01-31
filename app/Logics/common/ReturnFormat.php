@@ -33,7 +33,7 @@ class ReturnFormat
     {
         return [                  
             'code' => $code,
-            'msg' => $msg,
+            'message' => $msg,
         ];
     }
 }

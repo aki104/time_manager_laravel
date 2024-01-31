@@ -8,7 +8,6 @@ use DateTime;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -30,6 +29,7 @@ class History extends Model
     {
     }
 
+    //勤怠登録（出勤データ登録）
     public function createHistory(array $request, String $date)
     {
         // DB::table($this->table)->truncate();
@@ -44,6 +44,7 @@ class History extends Model
         return $result;
     }
 
+    //勤怠登録(退勤データ登録)
     public function updateHistory(array $request, Builder $data)
     {
         // DB::table($this->table)->truncate();
@@ -71,7 +72,7 @@ class History extends Model
                 $result = $this->createHistory($request, $date);
             }
         } else {
-            
+
             $result = $this->updateHistory($request, $recode);
         }
 
