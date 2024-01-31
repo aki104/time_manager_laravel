@@ -38,7 +38,7 @@ class AttendanceController extends Controller
        $codeNumber = (int) $responseRegist['code'];
 
        if ($codeNumber != 200) {
-        return response()->json($responseRegist);
+        return response()->json($responseRegist, $codeNumber);
        }
 
         //勤怠状態保存

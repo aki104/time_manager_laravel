@@ -23,7 +23,7 @@ class HistoryService  {
         if ($result == true) {
             $returnData = ReturnFormat::success(array(null), 200, '');
         } else {
-            $returnData = ReturnFormat::failure(405, '打刻できません');
+            $returnData = ReturnFormat::failure(405, '本日は退勤済みのため打刻できません');
         }
 
         
