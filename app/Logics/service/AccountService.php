@@ -12,7 +12,7 @@ class AccountService
     {
 
         $staff = new Staff();
-        $data = $staff->getLoginData($request);
+        $data = $staff->getLoginStaff($request);
         $returnData = [];
 
         if ($data === null) {

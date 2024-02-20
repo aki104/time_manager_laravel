@@ -13,15 +13,12 @@ class AttendanceService  {
 
     public function fetchExecute(array $request): array {
         $staff = new Staff();
-        $status = $staff -> fetchAttendanseStatus($request);
+        $status = $staff -> getAttendanseStatus($request);
         $returnData = ReturnFormat::success(array(
             'attendance_state' => $status
         ), 200, '');
         return $returnData;
-    }
-
-    
-
+    } 
 }
 
 

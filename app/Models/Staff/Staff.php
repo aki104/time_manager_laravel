@@ -23,22 +23,21 @@ class Staff extends Model
     protected $table = 'staffs';
 
     //ログインしたスタッフのデータ取得
-    public function getLoginData(array $request)
+    public function getLoginStaff(array $request)
     {
         $employeeCode = $request['employee_code'] ?? null;
         $email = $request['email'] ?? null;
         $companyCode = $request['company_code'];
-        $emailOrCode = $employeeCode ?? $email;
         $password = $request['password'];
+        $emailOrCodeArray = $employeeCode != null ? ['employee_code', '=', $employeeCode] : ['email', '=', $email];
 
         $employeeData = DB::table($this->table)
-            ->where('company_code', $companyCode)
-            ->find($emailOrCode);
-
-        //パスワード一致確認
-        if ($employeeData != null && $employeeData->password != $password) {
-            return null;
-        }
+            ->where([
+                ['company_code', '=', $companyCode],
+                $emailOrCodeArray,
+                ['password', '=', $password]
+            ])
+            ->first();
 
         return $employeeData;
     }
@@ -57,7 +56,7 @@ class Staff extends Model
     }
 
     //勤怠状況取得
-    public function fetchAttendanseStatus(array $request)
+    public function getAttendanseStatus(array $request)
     {
         $staffId = $request['user_id'];
         $status = null;

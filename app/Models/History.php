@@ -72,7 +72,6 @@ class History extends Model
                 $result = $this->createHistory($request, $date);
             }
         } else {
-
             $result = $this->updateHistory($request, $recode);
         }
 
